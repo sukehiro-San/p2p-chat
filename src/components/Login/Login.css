@@ -8,15 +8,15 @@ section {
 
 section .color {
     position: absolute;
-    filter: blur(150px);
+    filter: blur(200px);
     border-radius: 50%;
 
 }
 
 section .color:nth-child(1) {
-    top: -350px;
-    width: 600px;
-    height: 600px;
+    top: -550px;
+    width: 800px;
+    height: 800px;
     background: #ff359b;
 }
 
@@ -29,10 +29,10 @@ section .color:nth-child(2) {
 }
 
 section .color:nth-child(3) {
-    bottom: 50px;
-    right: 100px;
-    width: 300px;
-    height: 300px;
+    bottom: -250px;
+    right: -300px;
+    width: 700px;
+    height: 700px;
     background: #00d2ff;
 }
 

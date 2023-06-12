@@ -1,7 +1,5 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import LoginComponent from "./components/login/Login.component";
+import LoginComponent from "./components/Login/Login";
 
 function App() {
   return <LoginComponent />;
