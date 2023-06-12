@@ -24,13 +24,10 @@ const Signup = () => {
                   <input type="email" placeholder="Email" />
                 </div>
                 <div className="inputBox">
-                  <input type="submit" value=" Login " />
+                  <input type="submit" value=" Sign Up " />
 
                   <input type="reset" value=" Reset " />
                 </div>
-                <p className="forget">
-                  Forgot Account?<a href="#"> Click Here</a>
-                </p>
               </form>
             </div>
           </div>
