@@ -1,11 +1,9 @@
-import LoginComponent from './components/login/Login';
+import "./App.css";
+import LoginComponent from "./components/Login/Login";
+import Signup from "./components/Signup/Signup";
 
 function App() {
-  return (
-    <div className="App">
-      <LoginComponent/>
-    </div>
-  );
+  return <Signup />;
 }
 
 export default App;

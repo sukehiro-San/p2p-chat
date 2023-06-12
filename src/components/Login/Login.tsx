@@ -1,6 +1,6 @@
-import "./Login.css";
+import "./Login.scss";
 
-const LoginComponent = () => {
+const Login = () => {
   return (
     <div>
       <section>
@@ -37,4 +37,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default Login;
