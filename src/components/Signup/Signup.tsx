@@ -1,6 +1,6 @@
-import "./Login.scss";
+import "../Login/Login.scss";
 
-const Login = () => {
+const Signup = () => {
   return (
     <div>
       <section>
@@ -21,6 +21,9 @@ const Login = () => {
                   <input type="text" placeholder="Username" />
                 </div>
                 <div className="inputBox">
+                  <input type="email" placeholder="Email" />
+                </div>
+                <div className="inputBox">
                   <input type="submit" value=" Login " />
 
                   <input type="reset" value=" Reset " />
@@ -37,4 +40,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
