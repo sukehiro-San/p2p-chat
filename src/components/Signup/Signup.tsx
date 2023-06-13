@@ -15,7 +15,7 @@ const Signup = () => {
           <div className="square"></div>
           <div className="container">
             <div className="form">
-              <h2>Get In</h2>
+              <h2>Sign Up</h2>
               <form>
                 <div className="inputBox">
                   <input type="text" placeholder="Username" />
