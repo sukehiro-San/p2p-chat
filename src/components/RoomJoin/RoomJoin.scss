@@ -1,0 +1,23 @@
+.lobby-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+
+  input {
+    margin-bottom: 20px;
+    width: 100%;
+    outline: none;
+    border: 3px solid #464646;
+    border-radius: 4px;
+    padding: 5px 10px;
+
+    &[type="button"] {
+      border: 1px solid #464646;
+      padding: none;
+    }
+  }
+}
