@@ -1,8 +1,12 @@
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { userRegistration } from "../../store/slice/signupSlice";
+import SuccessfulPopup from "../Popups/SuccessfulPopup";
+import { useState } from "react";
 
 const initialValues = {
   userName: "",
-  designation: "",
+  role: "",
   companyName: "",
   companyWebsite: "",
   email: "",
@@ -31,6 +35,9 @@ const validate = (values) => {
   } else if (!/^[a-zA-Z]+$|^[a-zA-Z]+ [a-zA-Z]+$/i.test(values.userName)) {
     error.userName = "Invalid Text Format";
   }
+  if (!values.role) {
+    error.role = " ";
+  }
   if (!values.email) {
     error.email = " ";
   } else if (!/^[a-z0-9+_.-]+@[a-z0-9.-]+$/i.test(values.email)) {
@@ -57,210 +64,253 @@ const validate = (values) => {
 };
 
 const Signup = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues,
     onSubmit: (values, { props, setSubmitting }) => {
-      setSubmitting(false);
+      dispatch(userRegistration(values)).then(res => {
+        setShowPopup(true);
+        setTimeout(() => {
+          setShowPopup(false)
+          window.location.pathname = "/"
+        }, 1000);
+        setSubmitting(false);
+      });
     },
     validate,
   });
+  const handleClose = () => {
+    setShowPopup(false);
+  };
   return (
-    <div>
-      <section>
-        <div className="color"></div>
-        <div className="color"></div>
-        <div className="color"></div>
-        <div className="box">
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="container">
-            <div className="form">
-              <h2>Sign Up</h2>
-              <form onSubmit={formik.handleSubmit}>
-                <div className="inputBox" style={{ position: "relative" }}>
-                  {formik.touched.userName && formik.errors.userName ? (
-                    <div
+    <>
+      <div>
+        <section>
+          <div className="color"></div>
+          <div className="color"></div>
+          <div className="color"></div>
+          <div className="box">
+            <div className="square"></div>
+            <div className="square"></div>
+            <div className="square"></div>
+            <div className="square"></div>
+            <div className="square"></div>
+            <div className="container">
+              <div className="form">
+                <h2>Sign Up</h2>
+                <form onSubmit={formik.handleSubmit}>
+                  <div className="inputBox" style={{ position: "relative" }}>
+                    {formik.touched.userName && formik.errors.userName ? (
+                      <div
+                        style={{
+                          position: "absolute",
+                          color: "red",
+                          marginBottom: "25px",
+                        }}
+                      >
+                        {formik.errors.userName}
+                      </div>
+                    ) : null}
+                    <input
+                      type="text"
+                      placeholder="User Name"
+                      value="userName"
                       style={{
-                        position: "absolute",
-                        color: "red",
-                        marginBottom: "25px",
+                        border: `${
+                          formik.touched.userName && formik.errors.userName
+                            ? "1px solid red"
+                            : ""
+                        }`,
                       }}
-                    >
-                      {formik.errors.userName}
-                    </div>
-                  ) : null}
-                  <input
-                    type="text"
-                    placeholder="User Name"
-                    value="userName"
-                    style={{
-                      border: `${formik.touched.userName && formik.errors.userName ?"1px solid red" : ""}`
-                    }}
-                    {...formik.getFieldProps("userName")}
-                  />
-                </div>
-                <div className="inputBox" style={{ position: "relative" }}>
-                  {formik.touched.designation && formik.errors.designation ? (
-                    <div
+                      {...formik.getFieldProps("userName")}
+                    />
+                  </div>
+                  <div className="inputBox" style={{ position: "relative" }}>
+                    {formik.touched.role && formik.errors.role ? (
+                      <div
+                        style={{
+                          position: "absolute",
+                          color: "red",
+                          marginBottom: "25px",
+                        }}
+                      >
+                        {formik.errors.role}
+                      </div>
+                    ) : null}
+                    <select
+                      className="selectBox"
+                      name="role"
                       style={{
-                        position: "absolute",
-                        color: "red",
-                        marginBottom: "25px",
+                        border: `${
+                          formik.touched.role && formik.errors.role
+                            ? "1px solid red"
+                            : ""
+                        }`,
                       }}
+                      {...formik.getFieldProps("role")}
                     >
-                      {formik.errors.designation}
-                    </div>
-                  ) : null}
-                  <select
-                    className="selectBox"
-                    name="designation"
-                    style={{
-                      border: `${formik.touched.designation && formik.errors.designation ?"1px solid red" : ""}`
-                    }}
-                    {...formik.getFieldProps("designation")}
-                  >
-                    <option value="" disabled selected>
-                      Choose Designation
-                    </option>
-                    {["Founder", "Co-founder", "HR"].map((data) => {
-                      return (
-                        <option
-                          key={data}
-                          value={data}
-                        >
-                          {data}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div className="inputBox" style={{ position: "relative" }}>
-                  {formik.touched.companyName && formik.errors.companyName ? (
-                    <div
+                      <option value="" disabled selected>
+                        Choose role
+                      </option>
+                      {["Founder", "Co-founder", "HR"].map((data) => {
+                        return (
+                          <option key={data} value={data}>
+                            {data}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className="inputBox" style={{ position: "relative" }}>
+                    {formik.touched.companyName && formik.errors.companyName ? (
+                      <div
+                        style={{
+                          position: "absolute",
+                          color: "red",
+                          marginBottom: "25px",
+                        }}
+                      >
+                        {formik.errors.companyName}
+                      </div>
+                    ) : null}
+                    <input
+                      type="text"
+                      placeholder="Company Name"
+                      value="companyName"
                       style={{
-                        position: "absolute",
-                        color: "red",
-                        marginBottom: "25px",
+                        border: `${
+                          formik.touched.companyName &&
+                          formik.errors.companyName
+                            ? "1px solid red"
+                            : ""
+                        }`,
                       }}
-                    >
-                      {formik.errors.companyName}
-                    </div>
-                  ) : null}
-                  <input
-                    type="text"
-                    placeholder="Company Name"
-                    value="companyName"
-                    style={{
-                      border: `${formik.touched.companyName && formik.errors.companyName ?"1px solid red" : ""}`
-                    }}
-                    {...formik.getFieldProps("companyName")}
-                  />
-                </div>
-                <div className="inputBox" style={{ position: "relative" }}>
-                  {formik.touched.companyWebsite &&
-                  formik.errors.companyWebsite ? (
-                    <div
+                      {...formik.getFieldProps("companyName")}
+                    />
+                  </div>
+                  <div className="inputBox" style={{ position: "relative" }}>
+                    {formik.touched.companyWebsite &&
+                    formik.errors.companyWebsite ? (
+                      <div
+                        style={{
+                          position: "absolute",
+                          color: "red",
+                          marginBottom: "25px",
+                        }}
+                      >
+                        {formik.errors.companyWebsite}
+                      </div>
+                    ) : null}
+                    <input
+                      type="text"
+                      placeholder="Enter Company Website"
+                      name="companyWebsite"
                       style={{
-                        position: "absolute",
-                        color: "red",
-                        marginBottom: "25px",
+                        border: `${
+                          formik.touched.companyWebsite &&
+                          formik.errors.companyWebsite
+                            ? "1px solid red"
+                            : ""
+                        }`,
                       }}
-                    >
-                      {formik.errors.companyWebsite}
-                    </div>
-                  ) : null}
-                  <input
-                    type="text"
-                    placeholder="Enter Company Website"
-                    name="companyWebsite"
-                    style={{
-                      border: `${formik.touched.companyWebsite && formik.errors.companyWebsite ?"1px solid red" : ""}`
-                    }}
-                    {...formik.getFieldProps("companyWebsite")}
-                  />
-                </div>
-                <div className="inputBox" style={{ position: "relative" }}>
-                  {formik.touched.email && formik.errors.email ? (
-                    <div
+                      {...formik.getFieldProps("companyWebsite")}
+                    />
+                  </div>
+                  <div className="inputBox" style={{ position: "relative" }}>
+                    {formik.touched.email && formik.errors.email ? (
+                      <div
+                        style={{
+                          position: "absolute",
+                          color: "red",
+                          marginBottom: "25px",
+                        }}
+                      >
+                        {formik.errors.email}
+                      </div>
+                    ) : null}
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      value="email"
                       style={{
-                        position: "absolute",
-                        color: "red",
-                        marginBottom: "25px",
+                        border: `${
+                          formik.touched.email && formik.errors.email
+                            ? "1px solid red"
+                            : ""
+                        }`,
                       }}
-                    >
-                      {formik.errors.email}
-                    </div>
-                  ) : null}
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    value="email"
-                    style={{
-                      border: `${formik.touched.email && formik.errors.email ?"1px solid red" : ""}`
-                    }}
-                    {...formik.getFieldProps("email")}
-                  />
-                </div>
-                <div className="inputBox" style={{ position: "relative" }}>
-                  {formik.touched.password && formik.errors.password ? (
-                    <div
+                      {...formik.getFieldProps("email")}
+                    />
+                  </div>
+                  <div className="inputBox" style={{ position: "relative" }}>
+                    {formik.touched.password && formik.errors.password ? (
+                      <div
+                        style={{
+                          position: "absolute",
+                          color: "red",
+                          marginBottom: "25px",
+                          fontSize: "11px",
+                        }}
+                      >
+                        {formik.errors.password}
+                      </div>
+                    ) : null}
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      value="password"
                       style={{
-                        position: "absolute",
-                        color: "red",
-                        marginBottom: "25px",
-                        fontSize: "11px"
+                        border: `${
+                          formik.touched.password && formik.errors.password
+                            ? "1px solid red"
+                            : ""
+                        }`,
                       }}
-                    >
-                      {formik.errors.password}
-                    </div>
-                  ) : null}
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value="password"
-                    style={{
-                      border: `${formik.touched.password && formik.errors.password ?"1px solid red" : ""}`
-                    }}
-                    {...formik.getFieldProps("password")}
-                  />
-                </div>
-                <div className="inputBox" style={{ position: "relative" }}>
-                  {formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword ? (
-                    <div
+                      {...formik.getFieldProps("password")}
+                    />
+                  </div>
+                  <div className="inputBox" style={{ position: "relative" }}>
+                    {formik.touched.confirmPassword &&
+                    formik.errors.confirmPassword ? (
+                      <div
+                        style={{
+                          position: "absolute",
+                          color: "red",
+                          marginBottom: "25px",
+                        }}
+                      >
+                        {formik.errors.confirmPassword}
+                      </div>
+                    ) : null}
+                    <input
+                      type="password"
+                      placeholder="Confirm Password"
+                      value="confirmPassword"
                       style={{
-                        position: "absolute",
-                        color: "red",
-                        marginBottom: "25px",
+                        border: `${
+                          formik.touched.confirmPassword &&
+                          formik.errors.confirmPassword
+                            ? "1px solid red"
+                            : ""
+                        }`,
                       }}
-                    >
-                      {formik.errors.confirmPassword}
-                    </div>
-                  ) : null}
-                  <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    value="confirmPassword"
-                    style={{
-                      border: `${formik.touched.confirmPassword && formik.errors.confirmPassword ?"1px solid red" : ""}`
-                    }}
-                    {...formik.getFieldProps("confirmPassword")}
-                  />
-                </div>
-                <div className="inputBox">
-                  <input type="submit" value=" Sign Up " />
+                      {...formik.getFieldProps("confirmPassword")}
+                    />
+                  </div>
+                  <div className="inputBox">
+                    <input type="submit" value=" Sign Up " />
 
-                  {/* <input type="reset" value=" Reset " /> */}
-                </div>
-              </form>
+                    {/* <input type="reset" value=" Reset " /> */}
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+      <SuccessfulPopup showPopup={showPopup} closePopup={handleClose} message="Registered"/>
+    </>
   );
 };
 

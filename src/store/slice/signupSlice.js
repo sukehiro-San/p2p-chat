@@ -1,9 +1,9 @@
-const { default: axiosClient } = require('../../utils/httpClient');
-const { PATH } = require('../../utils/httpContants');
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axiosClient from '../../utils/httpClient';
+import { PATH } from '../../utils/httpContants';
 
-const createSlice = require('@reduxjs/toolkit').createSlice;
-const createAsyncThunk = require('@reduxjs/toolkit').createAsyncThunk;
-const axios = require('axios').default;
+
+
 
 const initialState = {
     loading: false,
@@ -11,23 +11,7 @@ const initialState = {
     error: ''
 }
 
-//  const userRegistration = (data) => (dispatch) => {
-//     return new Promise((resolve, reject) => {
-//       axiosClient({
-//         method: "POST",
-//         url: PATH.auth.signup,
-//         data,
-//       })
-//         .then((response) => {
-//           resolve(response);
-//         })
-//         .catch((error) => {
-//           reject(error);
-//         });
-//     });
-//   };
-
-const userRegistration = createAsyncThunk('users/fetchUsers', async(data) => {
+export const userRegistration = createAsyncThunk('users/addUsers', async(data) => {
     return new Promise((resolve, reject) => {
         axiosClient({
           method: "POST",
@@ -43,25 +27,25 @@ const userRegistration = createAsyncThunk('users/fetchUsers', async(data) => {
       });
 })
 
+export const userLogin = createAsyncThunk("user/userLogin", (data) => {
+    return new Promise((resolve, reject) => {
+        axiosClient({
+            method: "POST",
+            url: PATH.auth.login,
+            data
+        })
+        .then(response => {
+            resolve(response)
+        })
+        .catch(error => {
+            reject(error)
+        })
+    })
+})
+
 const usersSlice = createSlice({
     name: 'users',
-    initialState: initialState,
-    extraReducers: builder => {
-        builder.addCase(fetchusers.pending, state => {
-            state.loading = true;
-        })
-        builder.addCase(fetchusers.fulfilled, (state, action) => {
-            state.loading = false;
-            state.users = action.payload;
-            state.error = '';
-        })
-        builder.addCase(fetchusers.rejected, (state, action) => {
-            state.loading = false;
-            state.users = [];
-            state.error = action.error.message;
-        })
-    }
+    initialState: initialState
 });
 
-module.exports = usersSlice.reducer;
-module.exports.fetchusers = fetchusers;
+export default usersSlice.reducer;
