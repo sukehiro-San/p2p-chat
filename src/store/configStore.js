@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import demoReducer from "./slice/demoSlice";
+import roleSlice from "./slice/roleSlice";
 const store = configureStore({
   reducer: {
-    demo: demoReducer
+    role: roleSlice
   },
 });
 

@@ -1,0 +1,10 @@
+.homeButton {
+    width: 5em;
+    height: 7em;
+    margin-right: 0.2em;
+     &:hover{
+        cursor: pointer;
+        background-color: rgb(118, 106, 113) !important;
+        transition: 0.3s;
+     }
+}
